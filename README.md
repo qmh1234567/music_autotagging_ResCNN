@@ -29,7 +29,7 @@ This model used a simple ResCNN structure to implement music autotagging, which 
 ![2](https://github.com/qmh1234567/music_autotagging_ResCNN/blob/master/imgs/%E5%9B%BE%E7%89%872.png)
 
 - model structure
-![3](https://github.com/qmh1234567/music_autotagging_ResCNN/blob/master/imgs/%E5%9B%BE%E7%89%873.png)
+![3](https://github.com/qmh1234567/music_autotagging_ResCNN/blob/master/imgs/5.png)
 
 ### Result
 
