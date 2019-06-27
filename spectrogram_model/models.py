@@ -83,12 +83,12 @@ def ResCNN(input_shape,num_class):
 
     x = ZeroPadding2D((2,37),name='zero-padding')(x_in)
 
-    x = Conv2D(3,(3,3),strides=(1,1),padding='same',name='conv1')(x)
+    x = Conv2D(64,(3,3),strides=(1,1),padding='same',name='conv1')(x_in)
     x = BatchNormalization(name='norm1')(x)
     x = Activation('relu',name='relu1')(x)
 
 
-    x = Conv2D(3,(3,3),strides=(1,1),padding='same',name='conv2')(x)
+    x = Conv2D(64,(3,3),strides=(1,1),padding='same',name='conv2')(x)
     x = BatchNormalization(name='norm2')(x)
     x = Activation('relu',name='relu2')(x)
 
@@ -109,7 +109,7 @@ def ResCNN(input_shape,num_class):
     x = BatchNormalization(name='final_norm')(x)
     x = Activation('relu',name='final_relu')(x)
 
-    # x = Dropout(c.DROP_OUT,name='final_drop')(x)
+    x = Dropout(0.2,name='final_drop')(x)
     x = Dense(num_class,kernel_initializer='glorot_uniform',name='logit')(x)
     x = Activation('sigmoid',name='pred')(x)
     return Model(inputs=[x_in],outputs=[x],name='ResCNN')

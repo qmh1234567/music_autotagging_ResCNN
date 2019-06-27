@@ -143,8 +143,8 @@ def main(mode):
                             callbacks=[early_stopping, checkpointer_best])
     else:
         _, __, test_dataset = createDatasets()
-        model.load_weights(f'{c.CHECKPOINT_DIR}/best.h5')
-        # model.load_weights(f'{c.CHECKPOINT_DIR}/save/epoch_20_socre_0.875.h5')
+        # model.load_weights(f'{c.CHECKPOINT_DIR}/best.h5')
+        model.load_weights(f'{c.CHECKPOINT_DIR}/save/epoch_20_score_0.8770.h5')
         start = time.time()
         print(f"#SIZE of test dataset: {len(test_dataset[1])}")
         print("Starting load test dataset....")
@@ -184,7 +184,7 @@ def evaluate(model,y_pre,y_true,classes):
             cls_rocaucs.append(cls_rocauc)
             print()
 
-    np.save('rescnn_accs.npy',np.array(class_accs))
+    np.save('rescnn_spec_accs.npy',np.array(class_accs))
 
     print(f'=> Test scores: rocauc={rocauc:.6f}\tprauc={prauc:.6f}\tacc={acc:.6f}\tf1={f1:.6f}')
 

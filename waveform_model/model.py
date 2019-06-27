@@ -148,29 +148,24 @@ def ResCNN(inputshape,cfg):
   x = Lambda(lambda y: K.expand_dims(y,-1),name='expand_dim')(x)
  
   #  ResCNN
-  x = Conv2D(3,(3,3),strides=(3,3),padding='same',name='conv1')(x)
+  x = Conv2D(8,(3,3),strides=(3,3),padding='same',name='conv1')(x)
   x = BatchNormalization(name='norm1')(x)
   x = Activation('relu', name='relu1')(x)
   # x = MaxPool2D((3,3),strides=(3,3),padding='same',name='pool1')(x)
 
-  x = Conv2D(3,(3,3),strides=(3,3),padding='same',name='conv2')(x)
+  x = Conv2D(8,(3,3),strides=(3,3),padding='same',name='conv2')(x)
   x = BatchNormalization(name='norm2')(x)
   x = Activation('relu', name='relu2')(x)
 
   x = MaxPool2D((3,3),strides=(3,3),padding='same',name='pool2')(x)
-  
-  # x = res_conv_block(x,[32,32,128],strides=(3,3),cfg=cfg,name='block2')
 
+  x = res_conv_block(x,[64,64,256],strides=(2,2),cfg=cfg,name='block1')
+  x = res_conv_block(x,[64,64,256],strides=(2,2),cfg=cfg,name='block2')
   x = res_conv_block(x,[64,64,256],strides=(2,2),cfg=cfg,name='block3')
-  x = res_conv_block(x,[64,64,256],strides=(2,2),cfg=cfg,name='block4')
-  x = res_conv_block(x,[64,64,256],strides=(2,2),cfg=cfg,name='block5')
-  # x = res_conv_block(x,[64,64,256],strides=(2,2),cfg=cfg,name='block6')
   
+  x = res_conv_block(x,[128,128,512],strides=(2,2),cfg=cfg,name='block4')
+  x = res_conv_block(x,[128,128,512],strides=(2,2),cfg=cfg,name='block5')
   x = res_conv_block(x,[128,128,512],strides=(2,2),cfg=cfg,name='block6')
-  x = res_conv_block(x,[128,128,512],strides=(2,2),cfg=cfg,name='block7')
-  x = res_conv_block(x,[128,128,512],strides=(2,2),cfg=cfg,name='block8')
-  # x = res_conv_block(x,[128,128,512],strides=(2,2),cfg=cfg,name='block9')
-
 
   # 减少维数
   x = Lambda(lambda y: K.mean(y, axis=[1,2]), name='avgpool')(x)
@@ -180,7 +175,8 @@ def ResCNN(inputshape,cfg):
   x = BatchNormalization(name='final_norm')(x)
   x = Activation('relu', name='final_relu')(x)
   if cfg.dropout > 0.:
-    x = Dropout(cfg.dropout, name='final_drop')(x)
+    # x = Dropout(cfg.dropout, name='final_drop')(x)
+    x = Dropout(0.2, name='final_drop')(x)
   
   x = Dense(cfg.num_classes, kernel_initializer='glorot_uniform', name='logit')(x)
   x = Activation(cfg.activation, name='pred')(x)
